@@ -12,7 +12,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/members', (req, res) => {
-  res.json({ members: ['adi', 'alin', 'tinta'] });
+  res.json({ members: ['adi', 'alin', 'tinta', 'sendy', 'sergiu'] });
 });
 
 app.listen(PORT, () => {
