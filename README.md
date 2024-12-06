@@ -4,6 +4,10 @@
 
 + node.js (v18 or later)
 + npm (v9 or later)
+  
+> you can verify if you have them installed by running ```node -v``` for node.js and ```npm -v``` for npm.
+
+> if you don't have any of them installed, download node.js (lts) from [nodejs.org](https://nodejs.org/) and you'll get both of them (works for windows)
 
 ### clone the repository
 
