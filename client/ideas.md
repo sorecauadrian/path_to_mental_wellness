@@ -10,3 +10,9 @@
 
 + Duolingo for mental wellbeing (meditation exercises) similar to [librelingo](https://librelingo.app/)
   + maybe we could master breathing techniques everyday, keeping track of your level in each technique (maybe minutes spent)
+  + meditation sessions
+  + adding streaks
+
++ Daily journal and mood check
+
++ Would you rather for happy moments
