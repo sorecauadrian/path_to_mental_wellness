@@ -19,32 +19,32 @@ cd web_wildcats
 ### setup backend
 
 ```
-# Navigate to server directory
+# navigate to server directory
 cd server
 
-# Copy example environment file
+# copy example environment file
 cp .env.example .env
 
-# Install dependencies
+# install dependencies
 npm install
 
-# Start the server
-npm start
+# start the server
+npm run dev
 ```
 
 ### setup frontend
 
 ```
-# Navigate to client directory
+# navigate to client directory
 cd ../client
 
-# Copy example environment file
+# copy example environment file
 cp .env.example .env
 
-# Install dependencies
+# install dependencies
 npm install
 
-# Start the development server
+# start the development server
 npm run dev
 ```
 
