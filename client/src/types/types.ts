@@ -1,7 +1,7 @@
 export interface HappyMoment {
     id: string;
     text: string;
-    votes: number;
+    category: string;
   }
   
 export interface WouldYouRatherPair {
