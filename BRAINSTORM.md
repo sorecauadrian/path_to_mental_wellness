@@ -11,3 +11,10 @@
 + <del> Daily journal and mood check </del> ```(already exists)```
 
 + Would you rather for happy moments ```(valid, we hope)```
+
++ pe baza alegerilor sa ii dam utilizatorului ceva idei de produse pe care sa le achizitioneze sau ceva reclame personalizate
++ Competitors:
+    + https://wouldurather.io
+    + https://wouldyourather.vorensstudios.com
+    + https://blossomup.co/lp/personality-test/
+    + https://www.16personalities.com
