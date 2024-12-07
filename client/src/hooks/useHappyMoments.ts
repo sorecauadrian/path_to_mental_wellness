@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { HappyMoment, WouldYouRatherPair } from '../types/types';
-import { initialHappyMoments } from '../data/initialHappyMoments';
+import initialHappyMoments from '../data/initialHappyMoments.json';
 
 export const useHappyMoments = () => {
   const [happyMoments, setHappyMoments] = useState<HappyMoment[]>(initialHappyMoments);
