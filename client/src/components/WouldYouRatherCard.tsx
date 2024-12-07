@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { HappyMoment } from '../types/types';
-import { Sparkles } from 'lucide-react';
 import { useImageSearch } from '../hooks/useImageSearch';
 import wildcats from '../assets/images/wildcats.jpeg';
 
@@ -24,7 +23,8 @@ const WouldYouRatherCard: React.FC<Props> = ({ moment, onClick }) => {
                  border-4 border-transparent hover:border-primary-light group"
       style={{backgroundImage: `url(${imageUrl || wildcats})`}}
     >
-      <Sparkles className="w-16 h-16 text-primary-light mb-8 group-hover:scale-110 transition-transform duration-300" />
+      
+      <button className="w-16 h-16 text-primary-light mb-8 group-hover:scale-110 transition-transform duration-300" />
       <p className="text-3xl text-gray-200 text-center font-semibold group-hover:text-primary-light transition-colors duration-300 bg-black/50 p-4 rounded-lg">
         {moment.text}
       </p>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHappyMoments } from './hooks/useHappyMoments';
 import WouldYouRatherCard from './components/WouldYouRatherCard';
 import AddMomentForm from './components/AddMomentForm';
-import { Sparkles } from 'lucide-react';
+
 
 function App() {
   const { currentPair, getRandomPair, addHappyMoment, voteForMoment } = useHappyMoments();
@@ -37,8 +37,13 @@ function App() {
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold text-primary-light mb-2 flex items-center justify-center gap-2">
+<<<<<<< HEAD
+            <img src="cat.jpeg" className="w-8 h-8 text-primary-light" />
+            Would You Rather?
+=======
             <Sparkles className="w-8 h-8 text-primary-light" />
             What Would You Rather?
+>>>>>>> 525a234e95f79b2f1239d5b53ae5051500b61d25
           </h1>
           <p className="text-gray-300">Choose your preferred happy moment!</p>
         </header>
