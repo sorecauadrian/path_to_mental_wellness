@@ -24,6 +24,4 @@ const WouldYouRatherCard: React.FC<Props> = ({ moment, onClick }) => {
   );
 };
 
-
-
 export default WouldYouRatherCard;
