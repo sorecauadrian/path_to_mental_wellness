@@ -38,7 +38,7 @@ function App() {
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold text-primary-light mb-2 flex items-center justify-center gap-2">
             <Sparkles className="w-8 h-8 text-primary-light" />
-            Would You Rather?
+            What Would You Rather?
           </h1>
           <p className="text-gray-300">Choose your preferred happy moment!</p>
         </header>
