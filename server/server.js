@@ -1,20 +1,45 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+import dotenv from 'dotenv';
+import express from 'express';
+import { OpenAI } from 'openai';
+import cors from 'cors';
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+app.use(express.json());
+app.use(cors());
 
-const corsOptions = {
-    origin: [process.env.CORS_ORIGIN]
-};
+dotenv.config();
 
-app.use(cors(corsOptions));
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-app.get('/members', (req, res) => {
-  res.json({ members: ['adi', 'alin', 'tinta', 'sendy', 'sergiu'] });
+app.post('/generate-profile', async (req, res) => {
+  const { selectedMoments } = req.body;
+
+  if (!selectedMoments || !Array.isArray(selectedMoments) || selectedMoments.length === 0) {
+    return res.status(400).json({ error: 'Invalid or empty selectedMoments' });
+  }
+
+
+  console.log(selectedMoments);
+  try {
+    const text = `Based on the following moments, generate my profile:\n- ${selectedMoments.join('\n- ')}`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: text },
+      ],
+      max_tokens: 1000,
+      temperature: 0.25,
+    });
+
+    res.json({ profile: response.choices[0].message.content });
+        
+  } catch (error) {
+    console.error("Error in API call:", error.response ? error.response.data : error.message);
+    return null;
+  }
+      
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(3000, () => console.log('API running on http://localhost:3000'));

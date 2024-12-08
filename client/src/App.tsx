@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useHappyMoments } from './hooks/useHappyMoments';
 import WouldYouRatherCard from './components/WouldYouRatherCard';
 import AddMomentForm from './components/AddMomentForm';
@@ -11,15 +11,39 @@ function App() {
   const [selectedMoments, setSelectedMoments] = useState<string[]>([]);
   const [showSummary, setShowSummary] = useState(false);
 
-  const [responses, setResponses] = useState<number>(0); // Răspunsuri
-  const [showMoodSurvey, setShowMoodSurvey] = useState<boolean>(false); // MoodSurvey
-  const [surveyShown, setSurveyShown] = useState<boolean>(false); // Verificăm dacă survey a fost deja arătat
+  const [responses, setResponses] = useState<number>(0);
+  const [showMoodSurvey, setShowMoodSurvey] = useState<boolean>(false);
+  const [surveyShown, setSurveyShown] = useState<boolean>(false);
 
   useEffect(() => {
     if (!currentPair) {
       getRandomPair();
     }
   }, [currentPair, getRandomPair]);
+
+  const fetchProfile = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/generate-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ selectedMoments }),
+      });
+  
+      console.log('Response:', response);
+      if (!response.ok) {
+        throw new Error('Failed to fetch profile');
+      }
+  
+      const data = await response.json();
+      alert(`Generated Profile: ${data.profile}`);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      alert('An error occurred while generating your profile. Please try again later.');
+    }
+  };
+  
 
   const handleVote = (id: string) => {
     if (!currentPair) return;
@@ -30,14 +54,12 @@ function App() {
     setRoundsPlayed(prev => prev + 1);
     setSelectedMoments(prev => [...prev, selectedMoment.text]);
 
-    // Incrementăm numărul de răspunsuri
     setResponses(prevResponses => {
       const newResponses = prevResponses + 1;
 
-      // Dacă ajungem la un multiplu de 12 și survey nu a fost deja arătat
       if (newResponses % 12 === 0 && !surveyShown) {
-        setShowMoodSurvey(true); // Arată MoodSurvey
-        setSurveyShown(true); // Marchează că survey a fost arătat
+        setShowMoodSurvey(true);
+        setSurveyShown(true);
       }
       return newResponses;
     });
@@ -48,17 +70,15 @@ function App() {
   };
 
   useEffect(() => {
-    if (roundsPlayed > 0 && roundsPlayed % 5 === 0) {
+    if (roundsPlayed > 0 && roundsPlayed % 20 === 0) {
       setShowAddForm(true);
     }
   }, [roundsPlayed]);
 
   const handleMoodSubmit = (mood: string) => {
     console.log("User's mood:", mood);
-    setShowMoodSurvey(false);  // Închide MoodSurvey
+    setShowMoodSurvey(false); 
 
-    // Nu mai resetăm numărul de răspunsuri
-    // Resetează doar flag-ul surveyShown
     setSurveyShown(false);
   };
 
@@ -96,39 +116,19 @@ function App() {
         {roundsPlayed > 0 && roundsPlayed % 5 === 0 && !showAddForm && (
           <button
             className="mt-8 bg-primary-light text-secondary-dark py-2 px-4 rounded shadow-lg hover:bg-primary-dark"
-            onClick={() => setShowSummary(true)}
+            onClick={() => {
+              setShowSummary(true);
+              fetchProfile();
+            }}
           >
-            Vezi rezumatul alegerilor tale
+            Generate my profile
           </button>
         )}
 
-        {showSummary && (
-          <div className="bg-secondary-light text-primary-dark p-4 rounded-lg mt-8 shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">Rezumatul momentelor tale alese:</h2>
-            {selectedMoments.length === 0 ? (
-              <p className="text-gray-500">Nu ai selectat încă momente.</p>
-            ) : (
-              <ul className="list-disc pl-6 space-y-2">
-                {selectedMoments.map((moment, index) => (
-                  <li key={index}>{moment}</li>
-                ))}
-              </ul>
-            )}
-            <button
-              className="mt-4 bg-primary-light text-secondary-dark py-2 px-4 rounded shadow-lg hover:bg-primary-dark"
-              onClick={() => setShowSummary(false)}
-            >
-              Închide rezumatul
-            </button>
-          </div>
-        )}
-
-        {/* Afișează MoodSurvey doar după 12, 24, 36 răspunsuri etc. */}
         {showMoodSurvey && (
           <MoodSurvey onSubmit={handleMoodSubmit} onClose={() => setShowMoodSurvey(false)} />
         )}
 
-        {/* Afișează numărul de răspunsuri */}
         <div className="text-center mt-4">
           <p>Total responses: {responses}</p>
         </div>

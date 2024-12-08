@@ -20,17 +20,12 @@ export const useHappyMoments = () => {
           skipEmptyLines: true,
           transformHeader: (header) => header.trim(),
           complete: (results) => {
-            console.log('Parsing results:', results);
-
-            console.log('Raw parsed data:', results.data);
 
             const typedData: HappyMoment[] = results.data.map((row: any) => ({
               id: row.hmid,
               text: row.cleaned_hm,
               category: row.predicted_category,
             }));
-
-            console.log('Transformed happy moments:', typedData);
 
             if (typedData.length > 0) {
               setHappyMoments(typedData);
