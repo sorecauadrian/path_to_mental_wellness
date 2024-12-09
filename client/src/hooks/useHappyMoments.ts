@@ -61,7 +61,6 @@ export const useHappyMoments = () => {
   }, [happyMoments]);
 
   const addHappyMoment = useCallback((text: string) => {
-    console.log('Adding happy moment:', text);
     const newMoment: HappyMoment = {
       id: Date.now().toString(),
       text,
@@ -71,7 +70,6 @@ export const useHappyMoments = () => {
   }, []);
 
   const voteForMoment = useCallback((id: string) => {
-    console.log('Voted for moment:', id);
     getRandomPair();
   }, [getRandomPair]);
 
