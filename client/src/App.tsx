@@ -123,14 +123,15 @@ function App() {
     setSurveyShown(false);
   };
 
+  // Funcție de deschidere și închidere a formularului de feedback
   const handleFeedbackSubmit = (feedback: string) => {
     console.log("User feedback:", feedback);
-    setShowFeedbackForm(false);
+    setShowFeedbackForm(false); // Închide formularul de feedback după submit
   };
 
   const handleFeedbackButtonClick = () => {
-    setShowFeedbackButton(false);
-    setShowFeedbackForm(true);
+    setShowFeedbackButton(false); // Ascunde butonul de feedback după ce este apăsat
+    setShowFeedbackForm(true); // Arată formularul de feedback
   };
 
   if (!currentPair) return null;
@@ -205,6 +206,21 @@ function App() {
         <div className="text-center mt-4">
           <p>Total responses: {responses}</p>
         </div>
+
+        {/* Butonul de feedback */}
+        {showFeedbackButton && (
+          <button
+            className="fixed top-4 right-4 bg-primary-light text-secondary-dark py-2 px-4 rounded-full shadow-lg hover:bg-primary-dark"
+            onClick={handleFeedbackButtonClick}
+          >
+            Feedback
+          </button>
+        )}
+
+        {/* Formularul de feedback */}
+        {showFeedbackForm && (
+          <FeedbackForm onSubmit={handleFeedbackSubmit} onClose={() => setShowFeedbackForm(false)} />
+        )}
 
         {/* Butonul de feedback */}
         {showFeedbackButton && (
