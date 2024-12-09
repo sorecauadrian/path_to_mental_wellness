@@ -3,56 +3,18 @@ import { useHappyMoments } from './hooks/useHappyMoments';
 import WouldYouRatherCard from './components/WouldYouRatherCard';
 import AddMomentForm from './components/AddMomentForm';
 import MoodSurvey from './components/MoodSurvey';
-
-const FeedbackForm = ({ onSubmit, onClose }: { onSubmit: (feedback: string) => void, onClose: () => void }) => {
-  const [feedback, setFeedback] = useState('');
-
-  const handleSubmit = () => {
-    onSubmit(feedback);
-    setFeedback('');
-  };
-
-  return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-gray-800 p-8 rounded-lg max-w-lg w-full">
-        <h2 className="text-xl text-white font-bold mb-4">Feedback</h2>
-        <textarea
-          value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
-          className="w-full p-4 mb-4 border border-gray-300 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
-          placeholder="Your feedback..."
-        />
-        <div className="flex justify-end gap-4">
-          <button
-            className="bg-primary-light text-secondary-dark py-2 px-4 rounded-lg hover:bg-primary-dark"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
-          <button
-            className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500"
-            onClick={onClose}
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
+import FeedbackForm from './components/FeedbackForm';
 
 function App() {
   const { currentPair, getRandomPair, addHappyMoment, voteForMoment } = useHappyMoments();
   const [showAddForm, setShowAddForm] = useState(false);
   const [roundsPlayed, setRoundsPlayed] = useState(0);
   const [selectedMoments, setSelectedMoments] = useState<string[]>([]);
-  const [showSummary, setShowSummary] = useState(false);
 
-  const [responses, setResponses] = useState<number>(0); // Răspunsuri
-  const [showMoodSurvey, setShowMoodSurvey] = useState<boolean>(false); // MoodSurvey
-  const [surveyShown, setSurveyShown] = useState<boolean>(false); // Verificăm dacă survey a fost deja arătat
+  const [responses, setResponses] = useState<number>(0);
+  const [showMoodSurvey, setShowMoodSurvey] = useState<boolean>(false);
+  const [surveyShown, setSurveyShown] = useState<boolean>(false);
 
-  // State pentru butonul de feedback
   const [showFeedbackButton, setShowFeedbackButton] = useState(true);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
 
@@ -72,7 +34,6 @@ function App() {
         body: JSON.stringify({ selectedMoments }),
       });
   
-      console.log('Response:', response);
       if (!response.ok) {
         throw new Error('Failed to fetch profile');
       }
@@ -117,21 +78,17 @@ function App() {
   }, [roundsPlayed]);
 
   const handleMoodSubmit = (mood: string) => {
-    console.log("User's mood:", mood);
     setShowMoodSurvey(false); 
-
     setSurveyShown(false);
   };
 
-  // Funcție de deschidere și închidere a formularului de feedback
   const handleFeedbackSubmit = (feedback: string) => {
-    console.log("User feedback:", feedback);
-    setShowFeedbackForm(false); // Închide formularul de feedback după submit
+    setShowFeedbackForm(false);
   };
 
   const handleFeedbackButtonClick = () => {
-    setShowFeedbackButton(false); // Ascunde butonul de feedback după ce este apăsat
-    setShowFeedbackForm(true); // Arată formularul de feedback
+    setShowFeedbackButton(false);
+    setShowFeedbackForm(true);
   };
 
   if (!currentPair) return null;
@@ -165,40 +122,15 @@ function App() {
           />
         )}
 
-        {roundsPlayed > 0 && roundsPlayed % 5 === 0 && !showAddForm && (
+        {roundsPlayed >= 10 && (
           <button
             className="mt-8 bg-primary-light text-secondary-dark py-2 px-4 rounded shadow-lg hover:bg-primary-dark"
-            onClick={() => {
-              setShowSummary(true);
-              fetchProfile();
-            }}
+            onClick={() => {fetchProfile();}}
           >
-            View your answers
+            Generate my profile
           </button>
         )}
 
-        {showSummary && (
-          <div className="bg-secondary-light text-primary-dark p-4 rounded-lg mt-8 shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">Your answers:</h2>
-            {selectedMoments.length === 0 ? (
-              <p className="text-gray-500">You didn't selected any moments.</p>
-            ) : (
-              <ul className="list-disc pl-6 space-y-2">
-                {selectedMoments.map((moment, index) => (
-                  <li key={index}>{moment}</li>
-                ))}
-              </ul>
-            )}
-            <button
-              className="mt-4 bg-primary-light text-secondary-dark py-2 px-4 rounded shadow-lg hover:bg-primary-dark"
-              onClick={() => setShowSummary(false)}
-            >
-              Close
-            </button>
-          </div>
-        )}
-
-        {/* Afișează MoodSurvey doar după 12, 24, 36 răspunsuri etc. */}
         {showMoodSurvey && (
           <MoodSurvey onSubmit={handleMoodSubmit} onClose={() => setShowMoodSurvey(false)} />
         )}
@@ -207,7 +139,6 @@ function App() {
           <p>Total responses: {responses}</p>
         </div>
 
-        {/* Butonul de feedback */}
         {showFeedbackButton && (
           <button
             className="fixed top-4 right-4 bg-primary-light text-secondary-dark py-2 px-4 rounded-full shadow-lg hover:bg-primary-dark"
@@ -217,22 +148,6 @@ function App() {
           </button>
         )}
 
-        {/* Formularul de feedback */}
-        {showFeedbackForm && (
-          <FeedbackForm onSubmit={handleFeedbackSubmit} onClose={() => setShowFeedbackForm(false)} />
-        )}
-
-        {/* Butonul de feedback */}
-        {showFeedbackButton && (
-          <button
-            className="fixed top-4 right-4 bg-primary-light text-secondary-dark py-2 px-4 rounded-full shadow-lg hover:bg-primary-dark"
-            onClick={handleFeedbackButtonClick}
-          >
-            Feedback
-          </button>
-        )}
-
-        {/* Formularul de feedback */}
         {showFeedbackForm && (
           <FeedbackForm onSubmit={handleFeedbackSubmit} onClose={() => setShowFeedbackForm(false)} />
         )}
