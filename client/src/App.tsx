@@ -123,15 +123,14 @@ function App() {
     setSurveyShown(false);
   };
 
-  // Funcție de deschidere și închidere a formularului de feedback
   const handleFeedbackSubmit = (feedback: string) => {
     console.log("User feedback:", feedback);
-    setShowFeedbackForm(false); // Închide formularul de feedback după submit
+    setShowFeedbackForm(false);
   };
 
   const handleFeedbackButtonClick = () => {
-    setShowFeedbackButton(false); // Ascunde butonul de feedback după ce este apăsat
-    setShowFeedbackForm(true); // Arată formularul de feedback
+    setShowFeedbackButton(false);
+    setShowFeedbackForm(true);
   };
 
   if (!currentPair) return null;
@@ -141,7 +140,7 @@ function App() {
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold text-primary-light mb-2 flex items-center justify-center gap-2">
-            <img src="cat.jpeg" className="w-8 h-8 text-primary-light" alt="Cat icon" />
+            <img src="logo.jpeg" className="w-8 h-8 text-primary-light" alt="wildcats" />
             Would You Rather?
           </h1>
           <p className="text-gray-300">Choose your preferred happy moment!</p>

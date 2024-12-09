@@ -1,8 +1,5 @@
 import { useState } from 'react';
 
-const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
-const UNSPLASH_ACCESS_KEY = 'pydo48XhDNZ4Dhy78nlbCYtefiqMo2bLYt9zyUQJBg0';
-
 export const useImageSearch = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -10,9 +7,7 @@ export const useImageSearch = () => {
   const fetchImage = async (query: string) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `${UNSPLASH_API_URL}?query=${encodeURIComponent(query)}&client_id=${UNSPLASH_ACCESS_KEY}`
-      );
+      const response = await fetch(`${process.env.VITE_UNSPLASH_API_URL}?query=${encodeURIComponent(query)}&client_id=${process.env.VITE_UNSPLASH_ACCESS_KEY}`);
       const data = await response.json();
       if (data.results && data.results.length > 0) {
         setImageUrl(data.results[0].urls.regular);

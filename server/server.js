@@ -18,17 +18,12 @@ app.post('/generate-profile', async (req, res) => {
     return res.status(400).json({ error: 'Invalid or empty selectedMoments' });
   }
 
-
-  console.log(selectedMoments);
   try {
     const text = `Based on the following moments, generate my profile:\n- ${selectedMoments.join('\n- ')}`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [
-        { role: "system", content: "You are a helpful assistant." },
-        { role: "user", content: text },
-      ],
+      messages: [{ role: "user", content: text }],
       max_tokens: 1000,
       temperature: 0.25,
     });
@@ -39,7 +34,6 @@ app.post('/generate-profile', async (req, res) => {
     console.error("Error in API call:", error.response ? error.response.data : error.message);
     return null;
   }
-      
 });
 
-app.listen(3000, () => console.log('API running on http://localhost:3000'));
+app.listen(process.env.SERVER_PORT, () => console.log(`API running on ${process.env.SERVER_URL}:${process.env.SERVER_PORT}`));
